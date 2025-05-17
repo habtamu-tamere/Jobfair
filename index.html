@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire - ሀይር | Job Posting Platform</title>
+    <style>
+        :root {
+            --primary-color: #0088cc;
+            --hover-color: #006699;
+        }
+        body {
+            font-family: 'Arial', 'Nyala', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .language-toggle {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .language-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+        .language-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .logo {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: var(--hover-color);
+        }
+        .hidden {
+            display: none;
+        }
+        #previewSection {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .job-preview {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .payment-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .payment-option {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: #f0f7fc;
+        }
+        .payment-option img {
+            height: 30px;
+        }
+        .expiry-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .expiry-option {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .expiry-option.selected {
+            border-color: var(--primary-color);
+            background: #f0f7fc;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-toggle">
+        <button id="enBtn" class="language-btn active">English</button>
+        <button id="amBtn" class="language-btn">አማርኛ</button>
+    </div>
+
+    <div class="logo">Hire - ሀይር</div>
+    
+    <form id="jobForm">
+        <!-- Employer Type -->
+        <div class="form-group">
+            <label id="employerTypeLabel" class="required">You are posting as:</label>
+            <select id="employerType" required>
+                <option value="company">Company/Organization</option>
+                <option value="individual">Individual</option>
+            </select>
+        </div>
+
+        <!-- Company/Individual Name -->
+        <div class="form-group" id="companyNameGroup">
+            <label id="companyNameLabel" class="required">Company Name:</label>
+            <input type="text" id="companyName" required>
+        </div>
+        <div class="form-group hidden" id="individualNameGroup">
+            <label id="individualNameLabel" class="required">Your Full Name:</label>
+            <input type="text" id="individualName" required>
+        </div>
+
+        <!-- Job Title -->
+        <div class="form-group">
+            <label id="jobTitleLabel" class="required">Job Title:</label>
+            <input type="text" id="jobTitle" required>
+            <div id="jobTitlePlaceholder" style="color: #666; font-size: 14px; margin-top: 5px;">
+                e.g., Waiter, Cashier
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-group">
+            <label id="experienceLabel" class="required">Experience Required:</label>
+            <div style="margin-bottom: 10px;">
+                <input type="radio" name="experience" id="expNo" value="No" checked>
+                <label for="expNo" style="display: inline;">No</label>
+                <input type="radio" name="experience" id="expYes" value="Yes">
+                <label for="expYes" style="display: inline;">Yes</label>
+            </div>
+            <div id="yearsExpContainer" class="hidden">
+                <label id="yearsExpLabel" class="required">Years of Experience:</label>
+                <select id="yearsExp">
+                    <option>1-2 years</option>
+                    <option>3-5 years</option>
+                    <option>5+ years</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+            <label id="genderLabel" class="required">Gender Preference:</label>
+            <select id="gender" required>
+                <option>Any</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+            <label id="locationLabel" class="required">Location:</label>
+            <input type="text" id="location" required>
+            <div id="locationPlaceholder" style="color: #666; font-size: 14px; margin-top: 5px;">
+                e.g., Bole, Addis Ababa
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="form-group">
+            <label id="contactLabel" class="required">Contact Phone:</label>
+            <input type="tel" id="contact" required>
+        </div>
+
+        <!-- Expiry -->
+        <div class="form-group">
+            <label id="expiryLabel" class="required">Job Expires After:</label>
+            <div class="expiry-options">
+                <div class="expiry-option selected" data-days="7">
+                    <div>1 Week</div>
+                    <div id="expiryOption1">(7 days)</div>
+                </div>
+                <div class="expiry-option" data-days="14">
+                    <div>2 Weeks</div>
+                    <div id="expiryOption2">(14 days)</div>
+                </div>
+                <div class="expiry-option" data-days="30">
+                    <div>1 Month</div>
+                    <div id="expiryOption3">(30 days)</div>
+                </div>
+            </div>
+            <input type="hidden" id="expiryDays" value="7">
+        </div>
+
+        <button type="button" id="previewBtn">Preview & Pay 50 ETB</button>
+    </form>
+
+    <div id="previewSection" class="hidden">
+        <h2 id="previewTitle">Job Post Preview</h2>
+        <div class="job-preview" id="jobPreview"></div>
+
+        <h3 id="paymentTitle">Payment Method</h3>
+        <div class="payment-options">
+            <div class="payment-option" data-method="telebirr">
+                <img src="https://telebirr.com/logo.png" alt="TeleBirr">
+                <div>TeleBirr</div>
+            </div>
+            <div class="payment-option" data-method="chapa">
+                <img src="https://chapa.com/logo.png" alt="Chapa">
+                <div>Chapa</div>
+            </div>
+        </div>
+        
+        <button id="confirmPayment" disabled>Complete Payment (50 ETB)</button>
+        <button type="button" id="editBtn" style="background: #666; margin-top: 10px;">Edit Post</button>
+    </div>
+
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                appTitle: "Post a Job - 50 ETB",
+                employerTypeLabel: "You are posting as:",
+                companyNameLabel: "Company Name:",
+                individualNameLabel: "Your Full Name:",
+                jobTitleLabel: "Job Title:",
+                jobTitlePlaceholder: "e.g., Waiter, Cashier",
+                experienceLabel: "Experience Required:",
+                yearsExpLabel: "Years of Experience:",
+                genderLabel: "Gender Preference:",
+                locationLabel: "Location:",
+                locationPlaceholder: "e.g., Bole, Addis Ababa",
+                contactLabel: "Contact Phone:",
+                expiryLabel: "Job Expires After:",
+                expiryOptions: ["1 Week", "2 Weeks", "1 Month"],
+                expiryDays: ["(7 days)", "(14 days)", "(30 days)"],
+                previewTitle: "Job Post Preview",
+                paymentTitle: "Payment Method",
+                previewBtn: "Preview & Pay 50 ETB",
+                confirmPayment: "Complete Payment (50 ETB)",
+                editBtn: "Edit Post",
+                employerTypes: {
+                    company: "Company/Organization",
+                    individual: "Individual"
+                },
+                genderOptions: ["Any", "Male", "Female"],
+                experienceOptions: ["No", "Yes"],
+                yearsExpOptions: ["1-2 years", "3-5 years", "5+ years"]
+            },
+            am: {
+                appTitle: "ስራ ለመስበር - 50 ብር",
+                employerTypeLabel: "እንደ ማን ነው የሚለጥፉት:",
+                companyNameLabel: "የኩባንያ ስም:",
+                individualNameLabel: "ሙሉ ስምዎ:",
+                jobTitleLabel: "የስራ ርዕስ:",
+                jobTitlePlaceholder: "ምሳሌ: ወተት ሻጭ, ካሻይ",
+                experienceLabel: "ልምድ ያስፈልጋል?",
+                yearsExpLabel: "የልምድ ዓመታት:",
+                genderLabel: "ጾታ:",
+                locationLabel: "ቦታ:",
+                locationPlaceholder: "ምሳሌ: ቦሌ, አዲስ አበባ",
+                contactLabel: "ስልክ ቁጥር:",
+                expiryLabel: "ስራው የሚያበቃበት ጊዜ:",
+                expiryOptions: ["1 ሳምንት", "2 ሳምንታት", "1 ወር"],
+                expiryDays: ["(7 ቀናት)", "(14 ቀናት)", "(30 ቀናት)"],
+                previewTitle: "የስራ ማስታወቂያ ቅድመ እይታ",
+                paymentTitle: "የክፍያ ዘዴ",
+                previewBtn: "ይፋ ማድረግ እና 50 ብር ክፍያ",
+                confirmPayment: "ክፍያ አጠናቅቅ (50 ብር)",
+                editBtn: "ማስታወቂያውን አርትዕ",
+                employerTypes: {
+                    company: "ኩባንያ/ድርጅት",
+                    individual: "ግለሰብ"
+                },
+                genderOptions: ["ማንኛውም", "ወንድ", "ሴት"],
+                experienceOptions: ["አይ", "አዎ"],
+                yearsExpOptions: ["1-2 ዓመታት", "3-5 ዓመታት", "5+ ዓመታት"]
+            }
+        };
+
+        // Language management
+        function setLanguage(lang) {
+            // Update text elements
+            Object.keys(translations[lang]).forEach(key => {
+                const elements = document.querySelectorAll(`[id="${key}"]`);
+                elements.forEach(el => {
+                    if (el.tagName === 'INPUT' && el.type !== 'hidden') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                });
+            });
+
+            // Update select options
+            document.getElementById('employerType').innerHTML = `
+                <option value="company">${translations[lang].employerTypes.company}</option>
+                <option value="individual">${translations[lang].employerTypes.individual}</option>
+            `;
+
+            document.getElementById('gender').innerHTML = `
+                <option>${translations[lang].genderOptions[0]}</option>
+                <option>${translations[lang].genderOptions[1]}</option>
+                <option>${translations[lang].genderOptions[2]}</option>
+            `;
+
+            document.querySelectorAll('input[name="experience"]')[0].value = translations[lang].experienceOptions[0];
+            document.querySelectorAll('input[name="experience"]')[1].value = translations[lang].experienceOptions[1];
+            document.querySelector('input[name="experience"] + label').textContent = translations[lang].experienceOptions[0];
+            document.querySelectorAll('input[name="experience"] + label')[1].textContent = translations[lang].experienceOptions[1];
+
+            document.getElementById('yearsExp').innerHTML = `
+                <option>${translations[lang].yearsExpOptions[0]}</option>
+                <option>${translations[lang].yearsExpOptions[1]}</option>
+                <option>${translations[lang].yearsExpOptions[2]}</option>
+            `;
+
+            // Update expiry options
+            const expiryOptions = document.querySelectorAll('.expiry-option > div:first-child');
+            expiryOptions.forEach((opt, i) => {
+                opt.textContent = translations[lang].expiryOptions[i];
+            });
+
+            const expiryDays = document.querySelectorAll('.expiry-option > div:last-child');
+            expiryDays.forEach((day, i) => {
+                day.textContent = translations[lang].expiryDays[i];
+            });
+
+            // Update active language button
+            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+            document.getElementById('amBtn').classList.toggle('active', lang === 'am');
+
+            // Save language preference
+            localStorage.setItem('hireLanguage', lang);
+        }
+
+        // Initialize language
+        const savedLang = localStorage.getItem('hireLanguage') || 'en';
+        setLanguage(savedLang);
+
+        // Language toggle buttons
+        document.getElementById('enBtn').addEventListener('click', () => setLanguage('en'));
+        document.getElementById('amBtn').addEventListener('click', () => setLanguage('am'));
+
+        // Employer type toggle
+        document.getElementById('employerType').addEventListener('change', function() {
+            const isCompany = this.value === 'company';
+            document.getElementById('companyNameGroup').classList.toggle('hidden', !isCompany);
+            document.getElementById('individualNameGroup').classList.toggle('hidden', isCompany);
+            
+            // Clear the unused field
+            if (isCompany) {
+                document.getElementById('individualName').value = '';
+            } else {
+                document.getElementById('companyName').value = '';
+            }
+        });
+
+        // Experience toggle
+        document.getElementById('expYes').addEventListener('change', function() {
+            document.getElementById('yearsExpContainer').classList.toggle('hidden', !this.checked);
+        });
+
+        // Expiry selection
+        document.querySelectorAll('.expiry-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.expiry-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('expiryDays').value = this.getAttribute('data-days');
+            });
+        });
+
+        // Payment selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('confirmPayment').disabled = false;
+            });
+        });
+
+        // Form submission
+        document.getElementById('previewBtn').addEventListener('click', function() {
+            const currentLang = document.getElementById('enBtn').classList.contains('active') ? 'en' : 'am';
+            const employerType = document.getElementById('employerType').value;
+            const employerName = employerType === 'company' 
+                ? document.getElementById('companyName').value 
+                : document.getElementById('individualName').value;
+            const jobTitle = document.getElementById('jobTitle').value;
+            const experience = document.querySelector('input[name="experience"]:checked').value;
+            const yearsExp = experience === translations[currentLang].experienceOptions[1] 
+                ? document.getElementById('yearsExp').value 
+                : translations[currentLang].experienceOptions[0];
+            const gender = document.getElementById('gender').value;
+            const location = document.getElementById('location').value;
+            const contact = document.getElementById('contact').value;
+            const expiryDays = document.getElementById('expiryDays').value;
+
+            // Simple validation
+            if (!employerName || !jobTitle || !location || !contact) {
+                alert(currentLang === 'en' 
+                    ? "Please fill all required fields!" 
+                    : "እባክዎ ሁሉንም ክፍሎች ይሙሉ!");
+                return;
+            }
+
+            // Format preview
+            const expiryText = 
+                expiryDays === '7' ? translations[currentLang].expiryOptions[0] :
+                expiryDays === '14' ? translations[currentLang].expiryOptions[1] :
+                translations[currentLang].expiryOptions[2];
+
+            const previewHTML = `
+                <p><strong>${currentLang === 'en' ? 'Posted by:' : 'የለጠፈው:'}</strong> ${employerName}</p>
+                <p><strong>${translations[currentLang].jobTitleLabel}</strong> ${jobTitle}</p>
+                <p><strong>${translations[currentLang].locationLabel}</strong> ${location}</p>
+                <p><strong>${translations[currentLang].experienceLabel}</strong> ${yearsExp}</p>
+                <p><strong>${translations[currentLang].genderLabel}</strong> ${gender}</p>
+                <p><strong>${translations[currentLang].contactLabel}</strong> ${contact}</p>
+                <p><strong>${translations[currentLang].expiryLabel}</strong> ${expiryText}</p>
+            `;
+
+            document.getElementById('jobPreview').innerHTML = previewHTML;
+            document.getElementById('jobForm').classList.add('hidden');
+            document.getElementById('previewSection').classList.remove('hidden');
+        });
+
+        // Edit button
+        document.getElementById('editBtn').addEventListener('click', function() {
+            document.getElementById('jobForm').classList.remove('hidden');
+            document.getElementById('previewSection').classList.add('hidden');
+        });
+
+        // Payment confirmation
+        document.getElementById('confirmPayment').addEventListener('click', async function() {
+            const currentLang = document.getElementById('enBtn').classList.contains('active') ? 'en' : 'am';
+            const paymentMethod = document.querySelector('.payment-option.selected')?.getAttribute('data-method');
+            
+            if (!paymentMethod) {
+                alert(currentLang === 'en' 
+                    ? "Please select a payment method!" 
+                    : "እባክዎ የክፍያ ዘዴ ይምረጡ!");
+                return;
+            }
+
+            // Prepare job data
+            const jobData = {
+                language: currentLang,
+                employerType: document.getElementById('employerType').value,
+                companyName: document.getElementById('companyName').value,
+                individualName: document.getElementById('individualName').value,
+                title: document.getElementById('jobTitle').value,
+                location: document.getElementById('location').value,
+                experience: document.querySelector('input[name="experience"]:checked').value,
+                yearsExp: document.getElementById('yearsExp').value,
+                gender: document.getElementById('gender').value,
+                contact: document.getElementById('contact').value,
+                expiryDays: parseInt(document.getElementById('expiryDays').value),
+                paymentMethod: paymentMethod
+            };
+
+            // Simulate payment processing
+            alert(currentLang === 'en'
+                ? `Redirecting to ${paymentMethod} payment... (50 ETB)`
+                : `ወደ ${paymentMethod} ክፍያ በ50 ብር እየተዘጋጀ ነው...`);
+
+            // In a real implementation, you would:
+            // 1. Process payment via API
+            // 2. On success, send jobData to your backend
+            // 3. Backend would post to Telegram
+            
+            try {
+                const response = await fetch('https://your-backend.com/post-job', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jobData)
+                });
+                
+                if (response.ok) {
+                    alert(currentLang === 'en'
+                        ? "✅ Payment successful! Your job will be posted shortly."
+                        : "✅ ክፍያው ተሳክቷል! የስራ ማስታወቂያው በቅርብ ጊዜ ይወጣል።");
+                    window.location.reload();
+                } else {
+                    alert(currentLang === 'en'
+                        ? "❌ Error posting job. Please try again."
+                        : "❌ ስህተት ተፈጥሯል። እባክዎ እንደገና ይሞክሩ።");
+                }
+            } catch (error) {
+                alert(currentLang === 'en'
+                    ? "⚠️ Network error. Please check your connection."
+                    : "⚠️ አውታረመረብ ችግር አጋጥሟል። እባክዎ ግንኙነትዎን ያረጋግጡ።");
+            }
+        });
+    </script>
+</body>
+  </html>
