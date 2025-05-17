@@ -201,6 +201,16 @@
             </div>
         </div>
 
+        <!-- Add this new form group after the contact field -->
+<div class="form-group">
+    <label id="salaryLabel">Salary:</label>
+    <div style="display: flex; gap: 10px;">
+        <input type="text" id="salaryAmount" placeholder="Amount in ETB" style="flex: 2;">
+        <button type="button" id="negotiableBtn" style="flex: 1; background: #666;">Negotiable</button>
+    </div>
+    <input type="hidden" id="salaryType" value="fixed">
+</div>
+
         <!-- Contact -->
         <div class="form-group">
             <label id="contactLabel" class="required">Contact Phone:</label>
@@ -280,9 +290,21 @@
                 },
                 genderOptions: ["Any", "Male", "Female"],
                 experienceOptions: ["No", "Yes"],
-                yearsExpOptions: ["1-2 years", "3-5 years", "5+ years"]
-            },
-            am: {
+                yearsExpOptions: ["1-2 years", "3-5 years", "5+ years"],
+                salaryLabel: "Salary:",
+        salaryPlaceholder: "Amount in ETB",
+        negotiableBtn: "Negotiable",
+        salaryDisplay: "Salary:",
+        negotiableDisplay: "Salary: Negotiable"
+            
+    },
+    am: {
+
+        salaryLabel: "ደሞዝ:",
+        salaryPlaceholder: "ብር ውስጥ መጠን",
+        negotiableBtn: "በውይይት",
+        salaryDisplay: "ደሞዝ:",
+        negotiableDisplay: "ደሞዝ: በውይይት",  
                 appTitle: "ስራ ለመስበር - 50 ብር",
                 employerTypeLabel: "እንደ ማን ነው የሚለጥፉት:",
                 companyNameLabel: "የኩባንያ ስም:",
